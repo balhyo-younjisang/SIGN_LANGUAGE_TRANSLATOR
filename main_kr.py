@@ -4,13 +4,14 @@ import time
 import numpy as np
 import keyboard
 from PIL import ImageFont, ImageDraw, Image
+from unicode import join_jamos
 
 max_num_hands = 1  # 인식할 손의 갯수
 
 gesture = {  # 손동작
     0: 'ㄱ', 1: 'ㄴ', 2: 'ㄷ', 3: 'ㄹ', 4: 'ㅁ', 5: 'ㅂ', 6: 'ㅅ', 7: 'ㅇ', 8: 'ㅈ', 9: 'ㅊ', 10: 'ㅋ', 11: 'ㅌ', 12: 'ㅍ', 13: 'ㅎ', 14: 'ㅏ',
     15:'ㅑ', 16: 'ㅓ', 17: 'ㅕ', 18: 'ㅗ', 19: 'ㅛ', 20: 'ㅜ', 21: 'ㅠ', 22: 'ㅡ', 23: 'ㅣ', 24: 'ㅐ', 25: 'ㅒ', 26: 'ㅔ', 27: 'ㅖ', 28: "ㅢ",
-    29: "ㅚ", 30: "ㅟ", 31: "spacing", 32: "backspace"
+    29: "ㅚ", 30: "ㅟ", 31: "SPACING", 32: "BACKSPACE", 33: "CLEAR"
 }
 
 mp_hands = mp.solutions.hands
@@ -84,6 +85,8 @@ while True:
                             sentence += ' '
                         elif idx == 32:  # 한 글자 삭제
                             sentence = sentence[:-1]
+                        elif idx == 33:
+                            sentence = " "
                         else:  # 문자=
                             sentence += gesture[idx]
                         startTime = time.time()
@@ -108,9 +111,9 @@ while True:
     img_pillow = Image.fromarray(img)
     font = ImageFont.truetype(font_path, 24)
     draw = ImageDraw.Draw(img_pillow, 'RGB')
-    
+    join_sentence = join_jamos(sentence)
     # 텍스트 입력
-    draw.text((20, 440), sentence, font=font, fill=(0, 0, 0))
+    draw.text((20, 440), join_sentence, font=font, fill=(0, 0, 0))
     
     # cv2 이미지로 변환
     img_cv2 = np.array(img_pillow)

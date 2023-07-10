@@ -59,14 +59,14 @@ while True:
 
             angle = np.degrees(angle)
             # 데이터 학습
-            # if keyboard.is_pressed('s'):  # s를 누를 시 현재 데이터(angle)가 txt 파일에 저장됨
-            #     for num in angle:
-            #         num = round(num, 6)
-            #         f.write(str(num))
-            #         f.write(',')
-            #     f.write("27.000000")  # 데이터를 저장할 gesture의 label 번호
-            #     f.write("\n")
-            #     print('next')
+            if keyboard.is_pressed('s'):  # s를 누를 시 현재 데이터(angle)가 txt 파일에 저장됨
+                for num in angle:
+                    num = round(num, 6)
+                    f.write(str(num))
+                    f.write(',')
+                f.write("27.000000")  # 데이터를 저장할 gesture의 label 번호
+                f.write("\n")
+                print('next')
             data = np.array([angle], dtype=np.float32)
             ret, results, neighbours, dist = knn.findNearest(data, 3)
             idx = int(results[0][0])
